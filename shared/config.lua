@@ -1,12 +1,11 @@
 return {
     K9 = {
-        framework = "mythic",                                  -- Framework to use (mythic or sandbox)
-        target = "ox",                                         -- Target (ox for ox_target, mythic for mythic-targeting, sandbox for sandbox-targeting)
-        K9KeyCommands = "",                                    -- Keybind for K9 Commands
-        K9KeyFollowAttack = "",                                -- Keybind for attacking player if aimed, or follow player if not aimed
+        -- "" = unassigned default; bind still appears in FiveM Settings → Key Bindings (pulsar-kbs).
+        K9KeyCommands = "",
+        K9KeyFollowAttack = "",
         job = "police",                                        -- Job that can use the K9
         DogName = "Police K9",                                 -- Global name of the dog
-        DogCoords = vector4(459.737, -997.168, 26.512, 300.0), -- Vector4 for the dog's spawn (x, y, z, heading)
+        DogCoords = vector4(475.241, -1005.609, 26.853, 287.516), -- Vector4 for the dog's spawn (x, y, z, heading)
         searchTime = 10,                                       -- Time it takes to search (in seconds)
         illegalItems = {                                       -- List of illegal items (Change this to whatever you'd want the dog to search for)
             "coke_brick",

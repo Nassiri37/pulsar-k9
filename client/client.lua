@@ -339,12 +339,8 @@ function GetPlayerSourceAheadOfPlayer()
 end
 
 AddEventHandler("Characters:Client:Spawn", function()
-  local dutyData = Jobs.Duty:Get(source)
-  if dutyData and governmentJobs[dutyData.Id] then
-    local job = Jobs.Permissions:HasJob(source, dutyData.Id)
-    if job then
-      EnableK9(true)
-    end
+  if exports["pulsar-jobs"]:HasJob(Config.K9.job, nil, nil, nil, true) then
+    EnableK9(true)
   end
 end)
 
@@ -355,9 +351,11 @@ AddEventHandler('Characters:Client:Logout', function()
   end
 end)
 
-AddEventHandler('Jobs:server:JobUpdate', function(source)
-  local job = Jobs.Permissions:HasJob(source, Config.K9.job)
-  if job then
+AddStateBagChangeHandler("onDuty", nil, function(bagName, _, value)
+  if bagName ~= ("player:%s"):format(GetPlayerServerId(PlayerId())) then
+    return
+  end
+  if value == Config.K9.job and exports["pulsar-jobs"]:HasJob(Config.K9.job, nil, nil, nil, true) then
     EnableK9(true)
   end
 end)
@@ -390,50 +388,23 @@ function InitK9Ped()
 
     TaskPlayAnim(dogPed, sit.dict, sit.anim, 8.0, -8.0, -1, 1, 0.0, false, false, false)
 
-    if Config.K9.target == "ox" then
-      exports.ox_target:addBoxZone({
-        name = "k9_unit",
-        coords = dogCoords,
-        size = vector3(1.5, 1.6, 5.2),
-        rotation = dogHeading,
-        debug = false,
-        options = {
-          {
-            name = "pd_k9_unit",
-            icon = "paw",
-            label = "PD K9 Unit",
-            event = "al-k9:client:menu",
-            job = Config.K9.job,
-            distance = 3.0,
-          },
-        },
-      })
-    elseif Config.K9.target == "mythic" or "sandbox" then
-      while not Targeting do
-        Wait(200)
-      end
-
-      Targeting.Zones:AddBox("k9", "shield-dog", dogCoords, 1.5, 1.6, {
-        name = "k9_unit",
-        heading = dogHeading,
-        minZ = dogSpawn.z - 1,
-        maxZ = dogSpawn.z + 1,
-      }, {
+    exports.ox_target:addBoxZone({
+      name = "k9_unit",
+      coords = dogCoords,
+      size = vector3(1.5, 1.6, 5.2),
+      rotation = dogHeading,
+      debug = false,
+      options = {
         {
+          name = "pd_k9_unit",
           icon = "paw",
-          text = "PD K9 Unit",
+          label = "PD K9 Unit",
           event = "al-k9:client:menu",
-          jobPerms = {
-            {
-              job = Config.K9.job,
-              reqDuty = true,
-            }
-          },
+          job = Config.K9.job,
+          distance = 3.0,
         },
-      }, 3.0, true)
-    else
-      print("Wrong target specified in config...")
-    end
+      },
+    })
   end)
 end
 

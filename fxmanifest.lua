@@ -3,7 +3,7 @@ game 'gta5'
 lua54 'yes'
 
 author 'AutLaaw'
-description 'K-9 Script, original author hashx_k9 edited by FjamZoo#0001, converted to the mythic framework and improved by AutLaaw'
+description 'K-9 for Pulsar (pulsar-jobs, pulsar-hud, pulsar-kbs, ox_target, ox_inventory)'
 
 client_scripts {
     'client/*'
@@ -20,5 +20,12 @@ shared_scripts {
 }
 
 dependencies {
-    'ox_lib'
+    'ox_lib',
+    'oxmysql',
+    'ox_target',
+    'pulsar-core',
+    'pulsar-jobs',
+    'pulsar-hud',
+    'pulsar-kbs',
+    'ox_inventory',
 }

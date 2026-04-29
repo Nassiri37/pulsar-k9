@@ -2,7 +2,7 @@
 
 **Police K9 Script** is a project originally forked from [hashisx's repository](https://github.com/hashisx/hashx_k9), and later from [FjamZoo's repository](https://github.com/FjamZoo/qb-k9)
 
-**Thanks to [Boom's Repository](https://github.com/Boom1053/sandbox-k9)**, support has been added for the sandbox framework.
+**Thanks to [AutLaaw's Repository](https://github.com/AutLaaw/mythic-k9)**, support has been added for the Pulsar framework.
 
 ## Installation
 
@@ -11,14 +11,15 @@
 
 2. **Download the K9 Ped Asset**  
    The K9 Ped used in this script is a custom model. You can download the model from the [Cfx.re forum](https://forum.cfx.re/t/how-to-german-shepherd-malinois-k9-dog-1-0-1/1065040).
+   or just drag the K9_ped that is placed in "PED PUT ME SOMEWHERE" wherever you prefer
 
 3. **Add to Server Files**  
-   Place the `mythic-k9` folder into your server's resource directory.
+   Place the `Pulsar-k9` folder into your server's resource directory.
 
 4. **Configure Resources**  
    Start the script by adding the following line to your `resources.cfg` file:
    ```plaintext
-   start mythic-k9
+   ensure pulsar-k9
    ```
 
 ## Overview
@@ -40,4 +41,4 @@ This script allows you to retrieve a police dog, and then use it to follow or at
 
 ## Bugs
 
-If you experience any issues or bugs, contact me on discord through the [AutLaaw's Development Discord](https://discord.gg/bs2ctkn6EB).
+If you experience any issues or bugs open an issue on github.
