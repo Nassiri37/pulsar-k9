@@ -14,7 +14,7 @@
    or just drag the K9_ped that is placed in "PED PUT ME SOMEWHERE" wherever you prefer
 
 3. **Add to Server Files**  
-   Place the `Pulsar-k9` folder into your server's resource directory.
+   Place the `pulsar-k9` folder into your server's resource directory.
 
 4. **Configure Resources**  
    Start the script by adding the following line to your `resources.cfg` file:
