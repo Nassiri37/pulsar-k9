@@ -2,7 +2,7 @@
 
 **Police K9 Script** is a project originally forked from [hashisx's repository](https://github.com/hashisx/hashx_k9), and later from [FjamZoo's repository](https://github.com/FjamZoo/qb-k9)
 
-**Thanks to [AutLaaw's Repository](https://github.com/AutLaaw/mythic-k9)**, support has been added for the Pulsar framework.
+**Thanks to [AutLaaw's Repository](https://github.com/AutLaaw/mythic-k9)**, Pulsar framework support has been added. Sandbox and Mythic support have been removed.
 
 ## Installation
 
