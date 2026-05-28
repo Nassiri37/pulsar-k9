@@ -10,7 +10,6 @@ client_scripts {
 }
 
 server_scripts {
-    '@oxmysql/lib/MySQL.lua',
     'server/*'
 }
 
@@ -21,7 +20,6 @@ shared_scripts {
 
 dependencies {
     'ox_lib',
-    'oxmysql',
     'ox_target',
     'pulsar-core',
     'pulsar-jobs',

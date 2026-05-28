@@ -59,50 +59,32 @@ RegisterNetEvent("K9:server:searchVehicle", function(vin, plate, players)
 	TriggerClientEvent("k9:client:search_results", src, containsIllegal, "vehicle", trunkInventory)
 end)
 
-function GetContent(owner)
-	if not owner or owner == "" then
+local function getTrunkInventoryId(vin)
+	if vin:sub(1, 6) == "trunk-" then
+		return vin
+	end
+
+	return "trunk-" .. vin
+end
+
+function GetContent(vin)
+	if not vin or vin == "" then
 		return {}
 	end
 
-	local adjustedOwner = owner .. "-4"
-
-	local inventory = MySQL.query.await(
-		[[
-        SELECT
-            id,
-            count(id) as Count,
-            name as Owner,
-            item_id as Name,
-            dropped as Temp,
-            MAX(quality) as Quality,
-            information as MetaData,
-            slot as Slot,
-            MIN(creationDate) AS CreateDate
-        FROM
-            inventory
-        WHERE
-            name = ?
-        GROUP BY
-            slot
-        ORDER BY
-            slot ASC
-        ]],
-		{ adjustedOwner }
-	)
+	local items = exports.ox_inventory:GetInventoryItems(getTrunkInventoryId(vin))
+	if not items then
+		return {}
+	end
 
 	local content = {}
-	for _, item in ipairs(inventory) do
-		table.insert(content, {
-			id = item.id,
-			count = item.Count,
-			owner = item.Owner,
-			name = item.Name,
-			temp = item.Temp,
-			quality = item.Quality,
-			metadata = json.decode(item.MetaData or "{}"),
-			slot = item.Slot,
-			createDate = item.CreateDate,
-		})
+	for _, slot in pairs(items) do
+		if slot and slot.name then
+			content[#content + 1] = {
+				name = slot.name,
+				count = slot.count or 1,
+			}
+		end
 	end
 
 	return content
