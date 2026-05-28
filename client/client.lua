@@ -218,12 +218,25 @@ function GetPlayerId(target_ped)
   return 0
 end
 
+local function trimPlate(plate)
+  if not plate then
+    return nil
+  end
+
+  return string.gsub(plate, "^%s*(.-)%s*$", "%1")
+end
+
 local function K9SearchVehicle()
   following = false
   local PLAYER_COORDS = GetEntityCoords(PlayerPedId())
   local VEHICLE = GetClosestVehicle(PLAYER_COORDS, 10.0)
+  if not VEHICLE then
+    Notification:Error("No nearby vehicle found.", 4000)
+    return
+  end
+
   local vehState = Entity(VEHICLE).state
-  local PLATE = GetVehicleNumberPlateText(VEHICLE)
+  local PLATE = trimPlate(GetVehicleNumberPlateText(VEHICLE))
   local DOG = NetworkGetEntityFromNetworkId(k9_id)
   local VEHICLE_COORDS = GetEntityCoords(VEHICLE)
   local DOG_COORDS = GetEntityCoords(DOG)
@@ -247,7 +260,7 @@ local function K9SearchVehicle()
     end
   end
 
-  TriggerServerEvent("K9:server:searchVehicle", vehState.VIN, PLATE, PLAYERS)
+  TriggerServerEvent("K9:server:searchVehicle", vehState.VIN, PLATE, PLAYERS, NetworkGetNetworkIdFromEntity(VEHICLE))
   searching = true
 
   local offsets = {
@@ -516,13 +529,21 @@ RegisterNetEvent('k9:client:search_results', function(status, type, inventory)
     K9Found(status, type)
   end
 
-  if inventory and #inventory > 0 then
-    local itemDetails = {}
-    for _, item in ipairs(inventory) do
-      table.insert(itemDetails, string.format("%s (x%d)", item.name, item.count))
+  if type == 'vehicle' then
+    if status then
+      if inventory and #inventory > 0 then
+        Notification:Success("Suspicious scent found.", 8000)
+      end
+    elseif not inventory or #inventory == 0 then
+      Notification:Info("Vehicle seems to be empty.", 6000)
+    else
+      Notification:Info("Nothing illegal detected in the vehicle.", 6000)
     end
-    local notificationMessage = "Suspicious scent found."
-    Notification:Success(notificationMessage, 8000)
+    return
+  end
+
+  if inventory and #inventory > 0 then
+    Notification:Success("Suspicious scent found.", 8000)
   else
     Notification:Info("Vehicle seems to be empty.", 6000)
   end
